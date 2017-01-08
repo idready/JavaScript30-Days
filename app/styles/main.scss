@@ -1,31 +1,78 @@
 // bower:scss
+@import "bower_components/bootstrap/scss/bootstrap.scss";
 // endbower
 
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+
+// Font Variables
+$open-sans: 'Roboto Mono', serif;
+
+html,
 body {
-  background: #fafafa;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  color: #333;
+  min-height: 100%;
 }
 
-.hero-unit {
-  margin: 50px auto 0 auto;
-  width: 300px;
-  font-size: 18px;
-  font-weight: 200;
-  line-height: 30px;
-  background-color: #eee;
-  border-radius: 6px;
-  padding: 60px;
-  h1 {
-    font-size: 60px;
-    line-height: 1;
-    letter-spacing: -1px;
-  }
+body {
+  background: url('../images/bg/nkb-dlv7vro-jeremy-bishop.jpg') no-repeat #fafafa;
+  background-size: cover;
+  font-family: 'Roboto Mono', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #333;
 }
 
 .browserupgrade {
   margin: 0.2em 0;
   background: #ccc;
-  color: #000;
+  color: $black;
   padding: 0.2em 0;
+}
+
+.js-unit {
+
+  align-items: center;
+  background: $yellow;
+  color: $blue;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  min-height: 150px;
+  min-width: 150px;
+  padding: 20px;
+  text-decoration: none;
+  transition: $transition-base;
+
+  &:active,
+  &:visited,
+  &:hover {
+    color: $pink;
+    text-decoration: none;
+  }
+
+  .text {
+
+    flex: 0 auto;
+    font-size: 30px;
+  }
+}
+
+.js-lessons {
+
+  background: $gray-lighter;
+  flex: 0 90%;
+  margin: 100px auto 0;
+  padding: 50px;
+
+  > ul {
+
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .js-lesson__link {
+
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
