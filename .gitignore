@@ -4,3 +4,7 @@ dist
 .sass-cache
 bower_components
 test/bower_components
+
+app/js-lessons/*.zip
+app/js-lessons/JavaScript30-master/
+app/js-lessons/JavaScript30-master/*
