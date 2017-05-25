@@ -32,12 +32,12 @@
     // Array.prototype.every() // is everyone 19 or older?
     const allAgedNineteen = people.every((person)=> (new Date().getFullYear() - person.year) >= 19);
     console.log(`Array.prototype.every() // is everyone 19 or older? Answer: [${allAgedNineteen}]`);
-    
+
     // Array.prototype.find()
     // Find is like filter, but instead returns just the one you are looking for
     // find the comment with the ID of 823423
     const findId = (id) => comments.find( (comment) => comment.id === 823423 );
-    console.log(`Find the comment with the ID of 823423; Answer: ${findId(823423).text}`);
+    console.log(`Find the comment with the ID of 823423; Answer: ${(!!findId(823423)) ? findId(823423).text : false}`);
 
     // Array.prototype.findIndex()
     // Find the comment with this ID
@@ -49,13 +49,13 @@
     console.info(`Index: ${findIdAndRemove}`);
     console.info('After');
     console.table(comments);
-    
+
     // Kinda weird since if the index is 20 on an array with 30 this won't work then
-    // const newComments = [
-    //   ...comments.slice(0, findIdAndRemove),
-    //   ...comments.slice(findIdAndRemove + 1)
-    // ];
-    // 
+    const newComments = [
+      ...comments.slice(0, findIdAndRemove),
+      ...comments.slice(findIdAndRemove + 1)
+    ];
+
     console.table(newComments);
   </script>
 </body>
