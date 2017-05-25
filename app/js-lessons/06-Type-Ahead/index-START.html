@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <form class="search-form">
+    <input type="text" class="search" placeholder="City or State">
+    <ul class="suggestions">
+      <li>Filter for a city</li>
+      <li>or a state</li>
+    </ul>
+  </form>
+  <script>
+
+
+    const endpoint = "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
+    const cities = [];
+
+    // Set a basic request (OLD WAY)
+    // let req = new XMLHttpRequest();
+    // // Send the request
+    // req.open("GET", endpoint, true);
+    // req.send(null);
+    // // Listen on async request responses
+    // req.onreadystatechange = function(event) {
+    //     // XMLHttpRequest.DONE === 4
+    //     if (this.readyState === XMLHttpRequest.DONE) {
+    //         if (this.status === 200) {
+    //
+    //             console.info("Successfull request.");
+    //             cities = JSON.parse(this.responseText); // This broke my heart
+    //         } else {
+    //
+    //             console.warn(`Request terminated with status ${this.status} and message ${this.statusText}`);
+    //         }
+    //     }
+    // };
+
+    // Fetch API (new way) which is a Promise
+    fetch(endpoint).then(
+      data => (data.json()).then(response => cities.push(...response)),
+      error => console.warn(`Errors : ${error}`),
+      () => console.info('request cmompleted')
+    );
+
+    // Filter the resqults
+    // let filteredEntries = (cities) => (filterKey) => cities.filter( (city) => {
+    //   return city.city.indexOf(filterKey) !== -1;
+    // });
+    //
+    //
+    //Too complicated way (tested currying :D)
+    // let filteredEntries = (cities) => { return (filterKey) => cities.filter( (place) => {
+    //   // Use of  Regex alternative
+    //   const regExp = new RegExp(filterKey, 'gi'); // gi stands for global and insensitive
+    //   return place.city.match(regExp) || place.state.match(regExp);
+    //   // Here is the usual way (had to lowercase to avoid sensitive case issue for this solution)
+    //   // return place.city.indexOf(filterKey) !== -1 || place.state.indexOf(filterKey) !== -1;
+    // }) };
+    //
+
+    let numberWithCommas = (x) =>  x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+    let filteredCities = (cities, filterKey) => cities.filter( (aPlace) => {
+
+      const regExp = new RegExp(filterKey, 'gi'); // gi stands for global and insensitive
+      return aPlace.city.match(regExp) || aPlace.state.match(regExp);
+    });
+
+    function displayFoundCities(){
+
+      let matched = filteredCities(cities, this.value);
+
+      let dom = matched.map( place => {
+        // Replace the scity name before the dom insertion and loop on filtered datas
+        const regExp = new RegExp(this.value, 'gi');
+        let cityName = place.city.replace(regExp, `<span class="hl">${this.value}</span>`);
+        let stateName = place.state.replace(regExp, `<span class="hl">${this.value}</span>`);
+
+        return `<li><span class="name">${cityName}, ${stateName}</span><span class="population">${numberWithCommas(place.population)}</span></li>`;
+      }).join(''); //Used join to avoid array with comma and just paste string in the DOM
+      suggestions.innerHTML = dom;
+
+    }
+
+    // Handle event
+    let inputField = document.querySelector(".search-form .search");
+    let suggestions = document.querySelector(".suggestions");
+    // Listen to event
+    inputField.addEventListener('change', displayFoundCities);
+    inputField.addEventListener('keyup', displayFoundCities);
+
+  </script>
+  </body>
+</html>
